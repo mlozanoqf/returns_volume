@@ -1,0 +1,16 @@
+---
+title: "RV"
+author: "Collaborative project"
+date: "4/9/2021"
+output: pdf_document
+---
+
+
+```{r}
+library(tidyquant)
+```
+
+```{r}
+head(FANG)
+```
+
