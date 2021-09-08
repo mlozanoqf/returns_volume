@@ -15,6 +15,6 @@ head(FANG)
 ```
 
 ```{r}
-tails(FANG)
+tail(FANG)
 ```
 
