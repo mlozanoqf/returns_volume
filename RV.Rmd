@@ -14,3 +14,7 @@ library(tidyquant)
 head(FANG)
 ```
 
+```{r}
+tail(FANG)
+```
+
