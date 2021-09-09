@@ -21,3 +21,8 @@ tail(FANG)
 ```{r}
 str(FANG)
 ```
+
+```{r}
+head(FANG)
+```
+
