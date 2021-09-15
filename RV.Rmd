@@ -8,27 +8,20 @@ output: pdf_document
 
 ```{r}
 library(tidyquant)
-```
-
-```{r}
-head(FANG)
-```
-
-```{r}
-tail(FANG)
-```
-
-```{r}
-str(FANG)
-```
-
-```{r}
-head(FANG)
-```
-```{r}
-library(tidyquant)
 library(tidyverse)
+```
 
+```{r}
+head(FANG)
+```
+
+
+## Natalia. Comments by Martín in italics.
+
+
+*I recommend using the pre-loaded FANG database as it is (with the corresponding length). Here, Natalia downloaded the data and took the first months of the 2021 year. She includes two plots. Are both plots the same? I would recommend adding some comments to understand the plots. Also, remember the objective is to link the volume with the returns as explained in the instructions (readme repo). Martín.*
+
+```{r}
 FANG_2021<-c("AMZN", "GOOG", "FB", "NFLX") %>%
   tq_get(get = "stock.prices", from = "2021-01-01", to="2021-09-15")
 
@@ -39,7 +32,7 @@ ggplot(aes(x = date, y = volume, group = symbol)) +
     labs(title = "FANG Volume Chart", 
          subtitle = "2021 Daily Volume", 
          y = "Volume", x = "") +
-  facet_wrap(~ symbol, ncol = 2, scale = "free_y")  
+  facet_wrap(~ symbol, ncol = 2, scale = "free_y") +  
   theme_tq() +
     theme(legend.position = "none") 
 ```
@@ -55,7 +48,7 @@ ggplot(aes(x = date, y = volume, group = symbol)) +
     labs(title = "FANG Volume Chart", 
          subtitle = "2021 Daily Volume", 
          y = "Volume", x = "") +
-  facet_wrap(~ symbol, ncol = 2, scale = "free_y")  
+  facet_wrap(~ symbol, ncol = 2, scale = "free_y") +
   theme_tq() +
     theme(legend.position = "none") 
 ```
