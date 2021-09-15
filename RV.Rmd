@@ -25,4 +25,37 @@ str(FANG)
 ```{r}
 head(FANG)
 ```
+```{r}
+library(tidyquant)
+library(tidyverse)
 
+FANG_2021<-c("AMZN", "GOOG", "FB", "NFLX") %>%
+  tq_get(get = "stock.prices", from = "2021-01-01", to="2021-09-15")
+
+FANG_2021 %>%
+ggplot(aes(x = date, y = volume, group = symbol)) +
+    geom_segment(aes(xend = date, yend = 0, color = volume)) + 
+    geom_smooth(method = "loess", se = FALSE) +
+    labs(title = "FANG Volume Chart", 
+         subtitle = "2021 Daily Volume", 
+         y = "Volume", x = "") +
+  facet_wrap(~ symbol, ncol = 2, scale = "free_y")  
+  theme_tq() +
+    theme(legend.position = "none") 
+```
+
+```{r}
+FANG_2021<-c("AMZN", "GOOG", "FB", "NFLX") %>%
+  tq_get(get = "stock.prices", from = "2021-01-01", to="2021-09-15")
+
+FANG_2021 %>%
+ggplot(aes(x = date, y = volume, group = symbol)) +
+    geom_segment(aes(xend = date, yend = 0, color = volume)) + 
+    geom_smooth(method = "loess", se = FALSE) +
+    labs(title = "FANG Volume Chart", 
+         subtitle = "2021 Daily Volume", 
+         y = "Volume", x = "") +
+  facet_wrap(~ symbol, ncol = 2, scale = "free_y")  
+  theme_tq() +
+    theme(legend.position = "none") 
+```
