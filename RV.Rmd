@@ -5,7 +5,6 @@ date: "4/9/2021"
 output: pdf_document
 ---
 
-
 ```{r}
 library(tidyquant)
 library(tidyverse)
@@ -15,40 +14,28 @@ library(tidyverse)
 head(FANG)
 ```
 
-
+### FANGs Volume in Recent Years
 ## Natalia. Comments by Martín in italics.
-
-
 *I recommend using the pre-loaded FANG database as it is (with the corresponding length). Here, Natalia downloaded the data and took the first months of the 2021 year. She includes two plots. Are both plots the same? I would recommend adding some comments to understand the plots. Also, remember the objective is to link the volume with the returns as explained in the instructions (readme repo). Martín.*
 
-```{r}
-FANG_2021<-c("AMZN", "GOOG", "FB", "NFLX") %>%
-  tq_get(get = "stock.prices", from = "2021-01-01", to="2021-09-15")
+Looking at volume patterns over time can help get a sense of the conviction behind rises and falls in specific stocks and entire markets, for that reason it is proposed to analyze the volume charts for each FANG stock, in order to understands its trend and then relate it with the stocks' returns.
 
-FANG_2021 %>%
+```{r}
+FANG %>%
 ggplot(aes(x = date, y = volume, group = symbol)) +
     geom_segment(aes(xend = date, yend = 0, color = volume)) + 
     geom_smooth(method = "loess", se = FALSE) +
     labs(title = "FANG Volume Chart", 
-         subtitle = "2021 Daily Volume", 
+         subtitle = "Daily Volume from 2013-2017", 
          y = "Volume", x = "") +
   facet_wrap(~ symbol, ncol = 2, scale = "free_y") +  
   theme_tq() +
     theme(legend.position = "none") 
 ```
+The chart above shows the daily volumes and their trend line of FANGs stocks in the last few years. The bars represent the number of shares traded daily, and the line represents the trend that the volumes of each share have followed from 2013-2017.
 
-```{r}
-FANG_2021<-c("AMZN", "GOOG", "FB", "NFLX") %>%
-  tq_get(get = "stock.prices", from = "2021-01-01", to="2021-09-15")
+It is clear that to analyze daily volumes, and see their highest and lowest points, it is necessary to have a graph focused on a shorter period of time, in order to obtain more clarity in the data and get more objective interpretations.
 
-FANG_2021 %>%
-ggplot(aes(x = date, y = volume, group = symbol)) +
-    geom_segment(aes(xend = date, yend = 0, color = volume)) + 
-    geom_smooth(method = "loess", se = FALSE) +
-    labs(title = "FANG Volume Chart", 
-         subtitle = "2021 Daily Volume", 
-         y = "Volume", x = "") +
-  facet_wrap(~ symbol, ncol = 2, scale = "free_y") +
-  theme_tq() +
-    theme(legend.position = "none") 
-```
+Still, trend lines are useful for analyzing data over long periods of time.In the graph, it is observed that FB, NFLX and GOOG stocks' volume has had a negative behavior, meaning that from 2013 to 2017 the average volume of shares decreased. In the case of FB, it is important to highlight that at the beginning it had a positive behavior, but at the end of 2014 it took a downward trend.In contrast, the trend line for AMZN looks stable throughout that period, so we infer that it has maintained a constant average in its volumes.
+
+Now, it is proposed to analyze the a graph that shows the volumes by price
