@@ -43,3 +43,27 @@ It is clear that to analyze daily volumes, and see their highest and lowest poin
 Still, trend lines are useful for analyzing data over long periods of time.In the graph, it is observed that FB, NFLX and GOOG stocks' volume has had a negative behavior, meaning that from 2013 to 2017 the average volume of shares decreased. In the case of FB, it is important to highlight that at the beginning it had a positive behavior, but at the end of 2014 it took a downward trend.In contrast, the trend line for AMZN looks stable throughout that period, so we infer that it has maintained a constant average in its volumes.
 
 Now, it is proposed to analyze the a graph that shows the volumes by price
+
+## correlation between daily volume and daily returns
+
+```{r}
+
+FANG_daily_returns <- FANG |>
+  group_by(symbol) |>
+  tq_transmute(select = adjusted,
+               mutate_fun = periodReturn,
+               period = "daily",
+               type = "arithmetic")
+
+
+plot(FANG_daily_returns$daily.returns~FANG$volume)
+
+
+```
+
+Thanks to the scatter diagram, we can see that the relationship between daily returns and the volume of FANG have an independent and non-linear relationship. We can interpret it this way because their correlation coefficient is very close to zero (0.1356115) and its diagram does not indicate any curves. This coefficient can be seen below:
+
+```{r}
+
+cor.test(FANG_daily_returns$daily.returns, FANG$volume)
+```
