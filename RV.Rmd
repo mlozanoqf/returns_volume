@@ -67,3 +67,6 @@ Thanks to the scatter diagram, we can see that the relationship between daily re
 
 cor.test(FANG_daily_returns$daily.returns, FANG$volume)
 ```
+Thus, we could conclude that the return of a stock has not relationship with its volume in stock market; these variables are independent.
+ 
+Does anyone disagree? or someone to improve my conclusion
