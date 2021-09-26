@@ -27,6 +27,11 @@ head(FANG)
 1. *Interesting piece of evidence. Looks good and it was important to look at this at this moment. However, more questions arise. First, I recommend using ggplot to be consistent with the class and the previous analysis. The ggplot also will allow you to show differences by stocks. Gonzalo took all stocks together and there might be differences between them. There might also be differences by year. There is something else that could bring more contributions on board, this is to compare returns not only with respect to volume but changes in the volume (percentage changes). Just as you do a percentage change in price you can also calculate percentage change in volume. This will allow you to compare both variables under the same units.*
 
 
+### Diana.
+
+1. *I have similar comments as in the case of Gonzalo. First, I recommend using ggplot to be consistent with the class and the previous analysis. The ggplot also will allow you to show differences by stocks. There is something else that could bring more contributions on board, this is to compare returns not only with respect to volume but changes in the volume (percentage changes). Just as you do a percentage change in price you can also calculate percentage change in volume. This will allow you to compare both variables under the same units.*
+
+
 ## FANGs Volume in Recent Years.
 
 Looking at volume patterns over time can help get a sense of the conviction behind rises and falls in specific stocks and entire markets, for that reason it is proposed to analyze the volume charts for each FANG stock, in order to understands its trend and then relate it with the stocks' returns.
