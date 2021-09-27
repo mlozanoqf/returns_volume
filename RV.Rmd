@@ -18,7 +18,7 @@ head(FANG)
 
 ### Natalia.
 
-1. *I recommend using the pre-loaded FANG database as it is (with the corresponding length). Here, Natalia downloaded the data and took the first months of the 2021 year. She includes two plots. Are both plots the same? I would recommend adding some comments to understand the plots. Also, remember the objective is to link the volume with the returns as explained in the instructions (readme repo). Martín.*
+1. *I recommend using the pre-loaded FANG database as it is (with the corresponding length). Here, Natalia downloaded the data and took the first months of the 2021 year. She includes two plots. Are both plots the same? I would recommend adding some comments to understand the plots. Also, remember the objective is to link the volume with the returns as explained in the instructions (readme repo).*
 
 2. *This is much better Natalia. I understand the value of the trend, it is useful, and it is a good idea to incorporate it. I agree with your contribution. However, the trend in loess reduces some detail which may be important later, when you link volume with stock returns. Ideally, this is where others start contributing to the project.*
 
@@ -30,6 +30,8 @@ head(FANG)
 ### Diana.
 
 1. *I have similar comments as in the case of Gonzalo. First, I recommend using ggplot to be consistent with the class and the previous analysis. The ggplot also will allow you to show differences by stocks. There is something else that could bring more contributions on board, this is to compare returns not only with respect to volume but changes in the volume (percentage changes). Just as you do a percentage change in price you can also calculate percentage change in volume. This will allow you to compare both variables under the same units.*
+
+2. *This is much better as you listen to my comments. However, when you produce the PDF you end up with more than 160 pages because your code shows all data and this is not necessary, plots are fine. I already fixed that. You did good at producing ggplots and percentage changes of volume, apparently they are correct (unless someone sees a problem). I recommend adding a proper title so we can identify which plot corresponds to which stock. Also, I recommend colouring (add colours) the dots with respect to years so we can see whether specific years have some pattern in the plot.*
 
 
 ## FANGs Volume in Recent Years.
@@ -122,7 +124,7 @@ Netflix_volume <- Netflix %>%
                type = "arithmetic", 
                date = "2015-12-30" )
 Netflix1 <- merge(Netflix_daily_returns, Netflix_volume)
-Netflix1
+#Netflix1
 ```
 
 ```{r}
@@ -143,7 +145,7 @@ Netflix_daily_volume  <- FANG_daily_volume %>%
   filter(symbol == "NFLX") 
 
 Netflix1 <- data.frame(Netflix_daily_returns, Netflix_daily_volume)
-Netflix1
+#Netflix1
 ```
 ```{r}
 stock_ret_Netflix <- Netflix1 %>%
@@ -170,7 +172,7 @@ Fb_daily_volume  <- FANG_daily_volume %>%
   filter(symbol == "FB") 
 
 FB1 <- data.frame(FB_daily_returns, Fb_daily_volume)
-FB1
+#FB1
 
 ```
 ```{r}
@@ -198,7 +200,7 @@ AMZN_daily_volume  <- FANG_daily_volume %>%
   filter(symbol == "AMZN") 
 
 AMZN1 <- data.frame(AMZN_daily_returns, AMZN_daily_volume)
-AMZN1
+#AMZN1
 ```
 
 ```{r}
@@ -228,7 +230,7 @@ GOOG_daily_volume  <- FANG_daily_volume %>%
   filter(symbol == "GOOG") 
 
 GOOG1 <- data.frame(GOOG_daily_returns, GOOG_daily_volume)
-GOOG1
+#GOOG1
 ```
 
 ```{r}
