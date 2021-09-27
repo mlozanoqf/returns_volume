@@ -112,19 +112,50 @@ Netflix_daily_returns  <- FANG_daily_returns %>%
   mutate(day = as.factor(day(date))) %>%
   filter(symbol == "NFLX") 
   
-Netflix_volume <- FANG %>%
+Netflix <- FANG %>%
   filter(symbol == "NFLX") 
-Netflix_daily_returns
-Netflix_volume
+
+Netflix_volume <- Netflix %>%
+  tq_transmute(select = volume,
+               mutate_fun = periodReturn,
+               period = "daily",
+               type = "arithmetic", 
+               date = "2015-12-30" )
+Netflix1 <- merge(Netflix_daily_returns, Netflix_volume)
+Netflix1
+```
+
+```{r}
+FANG_daily_volume <- FANG %>%
+  group_by(symbol) %>%
+  tq_transmute(select = volume,
+               mutate_fun = periodReturn,
+               period = "daily",
+               type = "arithmetic", 
+               date = "2015-12-30" )
+
+Netflix_daily_returns  <- FANG_daily_returns %>%
+  mutate(day = as.factor(day(date))) %>%
+  filter(symbol == "NFLX") 
+
+Netflix_daily_volume  <- FANG_daily_volume %>%
+  mutate(day = as.factor(day(date))) %>%
+  filter(symbol == "NFLX") 
+
+Netflix1 <- data.frame(Netflix_daily_returns, Netflix_daily_volume)
+Netflix1
 ```
 ```{r}
-plot(Netflix_daily_returns$daily.returns~Netflix_volume$volume)
-
+stock_ret_Netflix <- Netflix1 %>%
+ggplot(aes(x = daily.returns.1, y = daily.returns)) +
+geom_point(color = palette_light()[[1]], alpha = 0.5) + geom_smooth(method = "lm") +
+labs(title = "Visualizing relationship of stocks returns and volume",  x = "Cambio en Volumen diario",y = "Cambio en returns diario") + theme_tq()
+stock_ret_Netflix
 ```
 
 ```{r}
 
-cor.test(Netflix_daily_returns$daily.returns,Netflix_volume$volume)
+cor.test(Netflix1$daily.returns.1, Netflix1$daily.returns)
 
 ```
 
@@ -133,20 +164,26 @@ FB_daily_returns  <- FANG_daily_returns %>%
   mutate(day = as.factor(day(date))) %>%
   filter(symbol == "FB") 
   
-Fb_volume <- FANG %>%
+
+Fb_daily_volume  <- FANG_daily_volume %>%
+  mutate(day = as.factor(day(date))) %>%
   filter(symbol == "FB") 
 
-FB_daily_returns
-Fb_volume
+FB1 <- data.frame(FB_daily_returns, Fb_daily_volume)
+FB1
 
 ```
 ```{r}
-plot(FB_daily_returns$daily.returns~Fb_volume$volume)
+stock_ret_FB <- FB1 %>%
+ggplot(aes(x = daily.returns.1, y = daily.returns)) +
+geom_point(color = palette_light()[[1]], alpha = 0.5) + geom_smooth(method = "lm") +
+labs(title = "Visualizing relationship of stocks returns and volume",  x = "Cambio en Volumen diario",y = "Cambio en returns diario") + theme_tq()
+stock_ret_FB
 
 ```
 ```{r}
 
-cor.test(FB_daily_returns$daily.returns,Fb_volume$volume)
+cor.test(FB1$daily.returns.1, FB1$daily.returns)
 
 ```
 
@@ -155,22 +192,26 @@ AMZN_daily_returns  <- FANG_daily_returns %>%
   mutate(day = as.factor(day(date))) %>%
   filter(symbol == "AMZN") 
   
-AMZN_volume <- FANG %>%
+
+AMZN_daily_volume  <- FANG_daily_volume %>%
+  mutate(day = as.factor(day(date))) %>%
   filter(symbol == "AMZN") 
 
-AMZN_daily_returns
-AMZN_volume
-
+AMZN1 <- data.frame(AMZN_daily_returns, AMZN_daily_volume)
+AMZN1
 ```
 
 ```{r}
-plot(AMZN_daily_returns$daily.returns~AMZN_volume$volume)
-
+stock_ret_AMZN <- AMZN1 %>%
+ggplot(aes(x = daily.returns.1, y = daily.returns)) +
+geom_point(color = palette_light()[[1]], alpha = 0.5) + geom_smooth(method = "lm") +
+labs(title = "Visualizing relationship of stocks returns and volume",  x = "Cambio en Volumen diario",y = "Cambio en returns diario") + theme_tq()
+stock_ret_AMZN
 ```
 
 ```{r}
 
-cor.test(AMZN_daily_returns$daily.returns,AMZN_volume$volume)
+cor.test(AMZN1$daily.returns,AMZN1$daily.returns.)
 
 ```
 
@@ -180,22 +221,30 @@ GOOG_daily_returns  <- FANG_daily_returns %>%
   mutate(day = as.factor(day(date))) %>%
   filter(symbol == "GOOG") 
   
-GOOG_volume <- FANG %>%
+  
+
+GOOG_daily_volume  <- FANG_daily_volume %>%
+  mutate(day = as.factor(day(date))) %>%
   filter(symbol == "GOOG") 
 
-GOOG_daily_returns
-GOOG_volume
-
+GOOG1 <- data.frame(GOOG_daily_returns, GOOG_daily_volume)
+GOOG1
 ```
 
 ```{r}
-plot(GOOG_daily_returns$daily.returns~GOOG_volume$volume)
-
+stock_ret_GOOG <- GOOG1 %>%
+ggplot(aes(x = daily.returns.1, y = daily.returns)) +
+geom_point(color = palette_light()[[1]], alpha = 0.5) + geom_smooth(method = "lm") +
+labs(title = "Visualizing relationship of stocks returns and volume",  x = "Cambio en Volumen diario",y = "Cambio en returns diario") + theme_tq()
+stock_ret_GOOG
 ```
 
 ```{r}
 
-cor.test(GOOG_daily_returns$daily.returns,GOOG_volume$volume)
+cor.test(GOOG1$daily.returns,GOOG1$daily.returns.)
 
 ```
-As we can see, the correlation between the daily return and the daily volume is not significant, because these are very small, and they are not representative. We can see that the smallest correlation is with Amazon, which is 0.0156, we can conclude that the daily return of Amazon is not related to the daily volume. In contrast, Netflix's correlation is the biggest, which is 0.2459. The correlation between the daily return and daily volume of Netflix is more than Amazon's correlation.
+
+
+
+As we can see, the graphs are very similar, except the Google graph, in which the values are concentrated in one area and the standard error are greater than the other graphs, with Google the standard error increases if the change in the daily volume increases. We can concluded that the volume changes are not representative for the returns. Continuing  with this, we can see that the smallest correlation is with Google, which is 0.0128, we can conclude that the daily return of Google is not related to the change in daily volume. In contrast, Netflix's correlation is the biggest, which is 0.1402. The correlation between the daily return and change daily volume of Netflix is more than Google's correlation.
