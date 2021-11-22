@@ -250,3 +250,96 @@ cor.test(GOOG1$daily.returns,GOOG1$daily.returns.)
 
 
 As we can see, the graphs are very similar, except the Google graph, in which the values are concentrated in one area and the standard error are greater than the other graphs, with Google the standard error increases if the change in the daily volume increases. We can concluded that the volume changes are not representative for the returns. Continuing  with this, we can see that the smallest correlation is with Google, which is 0.0128, we can conclude that the daily return of Google is not related to the change in daily volume. In contrast, Netflix's correlation is the biggest, which is 0.1402. The correlation between the daily return and change daily volume of Netflix is more than Google's correlation.
+
+## From a differt approach, volumes are usefull to predict returns.
+
+Contradicting the point of my colleagues, that the daily volumes of stocks are not representative to calculate its returns, I will present the importance of analyzing stocks volumes since this can help us to predict price movements, which then reflects in returns.
+
+Comparing volumes with prices is used to understand high buying and selling interest at specific price levels, which can be indicative of support, which is the price point that an asset struggles to fall below over a given time period, and resistance, which is the price point that an asset has had trouble exceeding in a given security.
+
+The price and volume graph for the FANGs is presented bellow, which show the volume of shares traded at a specific price level.
+
+```{r include=FALSE}
+library(finreportr)
+library(tidyquant)
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(quantmod)
+library(fpp3)
+library(tbl2xts)
+library(BatchGetSymbols)
+library(reshape2)
+```
+
+```{r include=FALSE}
+FANG_daily_volumes <- FANG %>%
+  group_by(symbol) %>%
+    tq_transmute(select     = volume, 
+                 mutate_fun = to.period, 
+                 period     = "days")
+
+FANG_daily_prices <- FANG %>%
+  group_by(symbol) %>%
+    tq_transmute(select     = adjusted, 
+                 mutate_fun = to.period, 
+                 period     = "days")
+
+FANG_daily_volumes_prices <- merge(FANG_daily_prices, FANG_daily_volumes)
+
+FB_daily_volumes_prices  <- FANG_daily_volumes_prices %>%
+  filter(symbol == "FB") 
+```
+
+```{r message=FALSE, warning=FALSE}
+ggplot(FANG_daily_volumes_prices,aes(x= date, y= volume/1000000))+
+  geom_bar(aes(fill= volume/1000000),stat = 'identity')+
+  geom_line(aes(x = date, y = adjusted, color = "red")) +
+  labs(title = 'FANG daily price and volume graph', y = 'Volume in million') +
+    facet_wrap(~ symbol, ncol = 2, scale = "free_y")+
+  theme(legend.position = 'None')
+
+```
+
+Clearly, the information is not appreciated in the previous graph, so the graphs in an individual way will be analyzed next.
+
+```{r message=FALSE, warning=FALSE}
+ggplot(FB_daily_volumes_prices,aes(x= date, y= volume/1000000))+
+  geom_bar(aes(fill= volume/1000000),stat = 'identity')+
+  geom_line(aes(x = date, y = adjusted, color = "red")) + 
+  labs(title = 'FB daily price and volume graph', y = 'Volume in million') +
+  theme(legend.position = 'None')
+```
+To understand the price by volume chart, special attention will be paid where the higher trading volumes took place. Lets take a close look into the third quarter of the first year, where we can see the highest trading volume levels.
+
+```{r message=FALSE, warning=FALSE}
+ggplot(FB_daily_volumes_prices,aes(x= date, y= volume/1000000))+
+  geom_bar(aes(fill= volume/1000000),stat = 'identity')+
+  geom_line(aes(x = date, y = adjusted*10, color = "red")) +
+   coord_x_date(xlim = c("2013-07-01", "2013-12-31")) +  scale_y_continuous(name = "Volume in million", sec.axis = sec_axis(~.*.10, name="Price ($)"),limits=c(0,550)) +
+  labs(title = 'FB daily price and volume graph',subtitle = "2013-07-01 - 2013-12-31", y = 'Volume in million') +
+  theme(legend.position = 'None')
+
+```
+
+It is observed that at the end of July, exactly on the 25th, the stock had the highest trading volume, the same day that the stock went from approximately 25 to 35 dollars. Therefore, we could say that $25 became a support price, since the interest in this date on this specific price level is evident, and throughout the year the stock having slight falls and rises, it  never touched that price again. 
+
+This is a very vague analysis since other points must be taken into account, even so I will continue to analyze another period of time to see what we find ourselves with.
+
+
+```{r message=FALSE, warning=FALSE}
+ggplot(FB_daily_volumes_prices,aes(x= date, y= volume/1000000))+
+  geom_bar(aes(fill= volume/1000000),stat = 'identity')+
+  geom_line(aes(x = date, y = adjusted, color = "red")) + 
+   coord_x_date(xlim = c("2016-01-01", "2016-12-31")) +  scale_y_continuous(name = "Volume in million")+  scale_y_continuous(name = "Volume in million", sec.axis = sec_axis(~.*1, name="Price ($)"),limits=c(0,150)) +
+  labs(title = 'FB daily price and volume chart', subtitle = "2016-01-01 - 2016-12-31", y = 'Volume in million') +
+  theme(legend.position = 'None')
+
+```
+
+During 2016, the day with the highest volume, the greatest increase in price is observed, this movement is observed on January 28, 2016, where the stock goes from approximately 95 to 110 dollars. Right here, the $95 became a support price, since after the high interest in this price level, the stock did not touch that price again, despite having a significant fall close to that day.
+
+Actually, to reach better conclusions a Volume-by-Price Chart must be analyzed. This chart, in addition of graphing daily prices and volumes as in the graphs presented above, it shows horizontal bar graphs on the left side to show the trading volume in all price ranges.
+
+I propose that someone try to carry out this analysis with the other stocks to reach better conclusions.
